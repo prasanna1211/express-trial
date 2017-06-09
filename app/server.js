@@ -1,28 +1,25 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var mongoose = require('mongoose');
+var graphqlHTTP = require('express-graphql');
+var buildSchema = require('graphql').buildSchema;
 
-var routes = require('./routes');
+var schema = buildSchema(`
+  type Query {
+    hello: String
+  }
+`);
 
-var url = require('../config.js').database;
+var root = {
+  hello: () => {
+    return 'Hello World';
+  }
+};
 
 var app = express();
-// Body parser for post
-app.use(bodyParser.urlencoded({
-  extended: false
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
 }));
 
-app.use(bodyParser.json());
-
-app.use(morgan('dev'));
-
-var port = process.env.PORT || 8080;
-
-mongoose.connect('mongodb://localhost/login');
-
-app.listen(port, function(err, succ) {
-  console.log(' started listening at port ');
-});
-
-app.use('/api', routes);
+app.listen(4000);
+console.log(' running a graphql API server at localhost:4000/graphql');

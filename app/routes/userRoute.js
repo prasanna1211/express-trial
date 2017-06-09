@@ -10,18 +10,17 @@ router.get('/', function(err, res) {
 });
 
 // Sets up a dummy user
-router.get('/setup', function(req, res) {
+router.post('/register', function(req, res) {
   var prasanna = new User({
-    name: 'Prasanna',
-    password: 'password',
-    admin: true
+    name: req.body.name,
+    password: req.body.password,
   });
 
   prasanna.save(function(err, success) {
     if(err) throw err;
     console.log(' User saved successfully ', success);
     res.json({ success: true });
-  })
+  });
 });
 
 // Displays all users
