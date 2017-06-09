@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node ./app/server.js"
   },
   "author": "prasanna <magic.mike@gmail.com> (http://www.magicmikemovie.com)",
   "license": "ISC",
