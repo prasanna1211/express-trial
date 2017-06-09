@@ -7,4 +7,4 @@ var UserSchema = new Schema({
   admin: Boolean,
 });
 
-module.exports = mongoose.Model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
