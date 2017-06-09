@@ -14,14 +14,15 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
+
 app.use(morgan('dev'));
 
 var port = process.env.PORT || 8080;
 
 mongoose.connect('mongodb://localhost/login');
 
-app.use('/api', routes);
-
 app.listen(port, function(err, succ) {
   console.log(' started listening at port ');
 });
+
+app.use('/api', routes);
