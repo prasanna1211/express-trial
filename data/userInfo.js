@@ -9,6 +9,31 @@ var GraphQLBoolean = require('graphql').GraphQLBoolean;
 var GraphQLFloat = require('graphql').GraphQLFloat;
 import axios from 'axios';
 
+const RepoInfoType = new GraphQLObjectType({
+  name: "RepoInfo",
+  description: "Owner information on a repo",
+  fields: () => ({
+    "login": { type: GraphQLString },
+    "id": { type: GraphQLInt },
+  })
+});
+
+
+function usersFollowing() {
+  return {
+      type: new GraphQLList(RepoInfoType),
+      description: "Fields about the people you this person follows",
+      resolve: (obj) => {
+        const brackIndex = obj.following_url.indexOf('{'),
+        url =  obj.following_url.slice(0, brackIndex);
+        return axios.get(url)
+          .then(function(response) {
+            return response.data;
+          });
+      }
+  };
+}
+
 const userInfoType = new GraphQLObjectType({
   name: 'userInfo',
   description: 'Basic information on github user',
@@ -17,13 +42,7 @@ const userInfoType = new GraphQLObjectType({
     "id": { type: GraphQLInt },
     avatar_url: { type: GraphQLString },
     site_admin: { type: GraphQLInt },
-    following_url: {
-      type: GraphQLString,
-      resolve: (obj) => {
-        const brackIndex = obj.following_url.indexOf('{');
-        return obj.following_url.slice(0, brackIndex);
-      }
-    }
+    users_following: usersFollowing(),
   }),
 })
 
