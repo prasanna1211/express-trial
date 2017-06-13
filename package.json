@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "./node_modules/.bin/babel-node --presets es2015 ./data/server.js"
+    "babel-node": "babel-node --presets es2015",
+    "dev": "nodemon --exec npm run babel-node ./data/server.js"
   },
   "author": "prasanna <magic.mike@gmail.com> (http://www.magicmikemovie.com)",
   "license": "ISC",

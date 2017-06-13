@@ -60,9 +60,7 @@ const query = new GraphQLObjectType({
       resolve: (_, {username}) => {
         const url = `https://api.github.com/users/${username}`;
         return axios.get(url)
-          .then(function(response) {
-            return response.data;
-          });
+          .then(response => response.data);
       }
     }
   })
