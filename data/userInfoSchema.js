@@ -21,6 +21,7 @@ const followerDetail = new GraphQLObjectType({
         return login;
       }
     },
+    id: { type: GraphQLInt }
   })
 });
 
@@ -35,6 +36,17 @@ const userInfoType = new GraphQLObjectType({
       }
     },
     id: { type: GraphQLInt },
+    followers: {
+      type: GraphQLString,
+      args: {
+        count: {
+          type: new GraphQLNonNull(GraphQLInt),
+        }
+      },
+      resolve: ({ followers }, { count }) => {
+        return followers < count ? 'TOO LOW' : 'TOO HIGH';
+      }
+    },
     followersUrl: {
       type: new GraphQLList(followerDetail),
       resolve: ({ followers_url }) => {
